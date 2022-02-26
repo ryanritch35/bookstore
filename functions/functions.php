@@ -1,5 +1,6 @@
 <?php
 
+    // not using anymore
     function get_author_user_id($author_arr, $conn){
         $return_ids = array();
         foreach($author_arr as $author){
@@ -16,6 +17,7 @@
         print_r($return_ids);
     }
 
+    // not using anymore
     function build_multi_sql_authors($latest_index){
         include('../config/db_connection.php');
         // doesn't support user_id yet
@@ -26,6 +28,33 @@
         $index = 0;
         foreach($author_arr as $author){
             $multi_authors .= "INSERT INTO tbl_authors VALUES ('$author', '$latest_index', $ids[$index]); ";
+            $index = $index + 1;
+        }
+        return $multi_authors;
+    }
+
+    // new function added to support author input from checkbox
+    function build_multi_sql_authors_id_included($latest_index, $available_authors){
+
+        $map = array();
+        foreach ($available_authors  as $a){
+            $map[$a['author_name']] = $a['user_id'];
+        }
+
+        $multi_authors = "INSERT INTO tbl_authors VALUES ";
+        $names = $_POST['availabe_authors'];
+        $index = 0;
+        
+        
+        foreach ($names as $author){ 
+            $a_name = $author;
+            $id = $available_authors[$index]['user_id'];
+ 
+            if ($index == count($names)-1){
+                $multi_authors .= "('$a_name', '$latest_index', $id); ";
+                break;
+            }
+            $multi_authors .= "('$a_name', '$latest_index', $id), ";
             $index = $index + 1;
         }
         return $multi_authors;
