@@ -33,6 +33,7 @@
         width: 75px;
     }
 
+
     .book_name {margin-bottom: 10px;}
     .book_isbn {margin-bottom: 10px;}
     .book_author {margin-bottom: 10px;}
