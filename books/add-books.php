@@ -15,7 +15,7 @@
     </div>
     <div class="book_isbn">
         <label for="book_isbn">ISBN:</label>
-        <input type="text" name="book_isbn" id="" placeholder="Enter ISBN" req<input type="text" name="book_name" id="" placeholder="Enter Title" 
+        <input type="text" name="book_isbn" id="" placeholder="Enter ISBN"
         value="<?php
             if(basename($_SERVER['PHP_SELF']) == 'publisher.php'){
                 echo $typed_inputs['isbn']; 
@@ -28,7 +28,12 @@
         required>
     </div>
     
-    <div class="book_genre">
+    <div class="book_genre" 
+    <?php 
+        if(basename($_SERVER['PHP_SELF']) == 'edit-books.php'){
+            echo 'hidden';
+        }
+    ?>>
         <label for="book_genre">Genre:</label>
         <select type="text" name="book_genre" id="" placeholder="Enter Genre">
             <?php  foreach($book_genres as $genre): ?>
@@ -48,7 +53,11 @@
             <?php endforeach;?>
         </select>
     </div>
-    <div class="book_type">
+    <div class="book_type" <?php 
+        if(basename($_SERVER['PHP_SELF']) == 'edit-books.php'){
+            echo 'hidden';
+        }
+    ?>>
         <label for="book_type">Type:</label>
         <select type="text" name="book_type" id="" placeholder="Enter Book Type"> 
             <?php $index = 0; foreach($book_types as $type): ?>
@@ -75,15 +84,16 @@
                 if(basename($_SERVER['PHP_SELF']) == 'publisher.php'){
                     echo $typed_inputs['price']; 
                 }
-                if(basename($_SERVER['PHP_SELF']) == 'edit-books.php'){
-                    echo $current_book['price'];
-                }
-                
             ?>" 
         required>
     </div>
 
-    <div class="book_author">
+    <div class="book_author" 
+    <?php 
+        if(basename($_SERVER['PHP_SELF']) == 'edit-books.php'){
+            echo 'hidden';
+        }
+    ?> >
         <label for="book_author">Authors:</label>
         <!-- <input type="text" name="book_author" id="" placeholder="Enter Author Name"> -->
         <!-- <select multiple type="text" name="availabe_authors" id="" placeholder="Choose Author names"> -->
