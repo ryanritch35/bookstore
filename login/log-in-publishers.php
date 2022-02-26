@@ -1,12 +1,14 @@
 <?php
     include_once('../config/db_connection.php');
     session_start();
-
+    $typedIn = array('user_name'=>'');
+    print_r($typedIn);
     print_r($_SESSION);
     if(isset($_POST['publisher_login'])){
         $publisher_username = htmlspecialchars($_POST['publisher_username']);
         $publisher_password = htmlspecialchars($_POST['publisher_password']);
-        
+        $typedIn['user_name'] = $publisher_username;
+
         $sql = "SELECT * FROM tbl_publishers WHERE pub_username = '$publisher_username' AND pub_password='$publisher_password'";
 
         $result = mysqli_query($conn, $sql);
@@ -16,8 +18,9 @@
         mysqli_close($conn);
         
         if($total_users == 0){
-            echo "User does not exist!";
+            echo '<script>alert("Invalid Username or Password")</script>';
         } else {
+            $typedIn['user_name'] = '';
             $_SESSION['publisher_name'] = $users[0]['pub_name'];
             $_SESSION['publisher_address'] = $users[0]['pub_address'];
             $_SESSION['publisher_phone'] = $users[0]['pub_phone'];
@@ -38,7 +41,7 @@
             <h3>Publishers Log In</h3>
             <div class="publisher-username">
                 <label for="publisher-username">Username: </label>
-                <input type="text" name="publisher_username" id="" placeholder="Enter username">
+                <input type="text" name="publisher_username" id="" placeholder="Enter username" value="<?php echo $typedIn['user_name']; ?>">
             </div>
             <div class="publisher-password">
                 <label for="publisher-password">Pasword: </label>
