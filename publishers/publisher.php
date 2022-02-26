@@ -54,10 +54,6 @@
         $typed_inputs['price'] = $b_price;
         $typed_inputs['authors'] = create_author_array_to_return_checked_status($names);
         
-        echo '<br><br><br>';
-        print_r($typed_inputs);
-        echo '<br><br><br>';
-
 
         if(publisher_book_info_validation($typed_inputs)){    
             if(check_if_book_exist($b_isbn, $b_type, $conn)){
