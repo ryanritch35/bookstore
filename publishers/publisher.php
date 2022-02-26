@@ -29,6 +29,18 @@
 
     print_r($available_authors);
 
+    if(isset($_POST['delete_book'])){
+        $id_to_del =  htmlspecialchars($_POST['id_to_del']);
+        $sql = "DELETE FROM tbl_books WHERE book_id = '$id_to_del';";
+
+        if(mysqli_query($conn, $sql)){
+            echo '<script>alert("Successfully deleted!")</script>';
+            header('refresh: 0; url = ./publisher.php');
+        } else {
+            echo '<script>alert("Unable to delete selected book!")</script>';
+        }
+    }
+
 
     if(isset($_POST['book_add'])){
         $b_title = htmlspecialchars($_POST['book_name']);
@@ -182,6 +194,7 @@
 
                 <td style="text-align:center;">
                     <form action="<?php htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="POST">
+                        <input type="hidden" name= "id_to_del" value="<?php echo $book['book_id']; ?>">
                         <button style="font-size: 20px; text-align: center; border-radius: 50%; color: red; border: 2px solid red;" type="submit" name="delete_book" value=""><b>&#8722;</b></button>
                     </form>
                 </td>
