@@ -5,6 +5,7 @@
     include('../functions/functions.php');
  
     session_start();
+    $typed_inputs = array('title' =>'', 'isbn'=>'', 'genre'=>'', 'type'=>'', 'price'=>'', 'authors'=>array());
 
 
     $min_book_count = 1;
@@ -36,26 +37,49 @@
         $b_genre = htmlspecialchars($_POST['book_genre']);
         $b_type = htmlspecialchars($_POST['book_type']);
         $b_price = htmlspecialchars($_POST['book_price']);
+        $names = (isset($_POST['availabe_authors'])) ? $_POST['availabe_authors'] : array();
+
+        $typed_inputs['title'] = $b_title;
+        $typed_inputs['isbn'] = $b_isbn;
+        $typed_inputs['genre'] = $b_genre;
+        $typed_inputs['type'] = $b_type;
+        $typed_inputs['price'] = $b_price;
+        $typed_inputs['authors'] = create_author_array_to_return_checked_status($names);
         
-        if(check_if_book_exist($b_isbn, $b_type, $conn)){
+        echo '<br><br><br>';
+        print_r($typed_inputs);
+        echo '<br><br><br>';
 
-            $sql = "INSERT INTO tbl_books(isbn, title, genre, book_type, price, publisher_name) VALUES('$b_isbn', '$b_title', '$b_genre', '$b_type', '$b_price', '$publisher_name')";
+
+        if(publisher_book_info_validation($typed_inputs)){    
+            if(check_if_book_exist($b_isbn, $b_type, $conn)){
+
+                $sql = "INSERT INTO tbl_books(isbn, title, genre, book_type, price, publisher_name) VALUES('$b_isbn', '$b_title', '$b_genre', '$b_type', '$b_price', '$publisher_name')";
 
 
-            if(mysqli_query($conn, $sql)){
-                $last_inserted_book_id = mysqli_insert_id($conn);
-                // function changed here
-                $sql = build_multi_sql_authors_id_included($last_inserted_book_id,$available_authors);
-                if(mysqli_multi_query($conn, $sql)){
-                    header('refresh: 0; url = ./publisher.php');
+                if(mysqli_query($conn, $sql)){
+                    $last_inserted_book_id = mysqli_insert_id($conn);
+                    // function changed here
+                    $sql = build_multi_sql_authors_id_included($last_inserted_book_id,$available_authors, $names);
+                    if(mysqli_multi_query($conn, $sql)){
+                        $typed_inputs['title'] = '';
+                        $typed_inputs['isbn'] = '';
+                        $typed_inputs['genre'] = '';
+                        $typed_inputs['type'] = '';
+                        $typed_inputs['price'] = '';
+                        $typed_inputs['authors'] = array();
+                        header('refresh: 0; url = ./publisher.php');
+                    } else{
+                        echo '<script>alert("Unable to add new authors")</script>';
+                    }
                 } else{
-                    echo '<script>alert("Unable to add new authors")</script>';
+                    echo '<script>alert("Unable to insert new book")</script>';
                 }
             } else{
-                echo '<script>alert("Unable to insert new book")</script>';
+                echo '<script>alert("Book already exists!")</script>';
             }
-        } else{
-            echo '<script>alert("Book already exists!")</script>';
+        } else {
+            echo '<script>alert("Please insert complete info!")</script>';
         }
     } else if(isset($_POST['log_out'])){
         unset($_SESSION['publisher_name']);
@@ -80,18 +104,18 @@
         <form action="<?php htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
             <div class="book_name">
                 <label for="book_name">Title;</label>
-                <input type="text" name="book_name" id="" placeholder="Enter Title" required>
+                <input type="text" name="book_name" id="" placeholder="Enter Title" value="<?php echo $typed_inputs['title']; ?>" required>
             </div>
             <div class="book_isbn">
                 <label for="book_isbn">ISBN:</label>
-                <input type="text" name="book_isbn" id="" placeholder="Enter ISBN" req<input type="text" name="book_name" id="" placeholder="Enter Title" required>
+                <input type="text" name="book_isbn" id="" placeholder="Enter ISBN" req<input type="text" name="book_name" id="" placeholder="Enter Title" value="<?php echo $typed_inputs['isbn']; ?>" required>
             </div>
             
             <div class="book_genre">
                 <label for="book_genre">Genre:</label>
                 <select type="text" name="book_genre" id="" placeholder="Enter Genre">
                     <?php  foreach($book_genres as $genre): ?>
-                        <option value="<?php echo $genre; ?>"> <?php echo $genre; ?></option>
+                        <option <?php if($genre == $typed_inputs['genre']) echo 'selected'; ?> value="<?php echo $genre; ?>"> <?php echo $genre; ?></option>
                     <?php endforeach;?>
                 </select>
             </div>
@@ -99,14 +123,14 @@
                 <label for="book_type">Type:</label>
                 <select type="text" name="book_type" id="" placeholder="Enter Book Type"> 
                     <?php $index = 0; foreach($book_types as $type): ?>
-                        <option value="<?php echo $index; ?>"> <?php echo $type; ?></option>
+                        <option <?php if($index == $typed_inputs['type']) echo 'selected'; ?> value="<?php echo $index; ?>"> <?php echo $type; ?></option>
 
                     <?php $index++; endforeach;?>
                 </select>
             </div>
             <div class="book_price">
                 <label for="book_price">Price:</label>
-                <input type="number" name="book_price" id="" placeholder="0.00" step="0.01" min="<?php echo $min_price; ?>" max="<?php echo $max_price; ?>" required>
+                <input type="number" name="book_price" id="" placeholder="0.00" step="0.01" min="<?php echo $min_price; ?>" max="<?php echo $max_price; ?>" value="<?php echo $typed_inputs['price']; ?>" required>
             </div>
 
             <div class="book_author">
@@ -114,9 +138,9 @@
                 <!-- <input type="text" name="book_author" id="" placeholder="Enter Author Name"> -->
                 <!-- <select multiple type="text" name="availabe_authors" id="" placeholder="Choose Author names"> -->
                 <div class="book_author-checkbox">
-                    <?php $index = 0; foreach($available_authors as $authors): ?>
-                        <input type="checkbox" name="availabe_authors[]" value="<?php echo $authors['author_name']; ?>"> <?php echo $authors['author_name']; ?></input><br>
-                    <?php $index++; endforeach;?>
+                    <?php foreach($available_authors as $authors): ?>
+                        <input <?php if(array_key_exists($authors['author_name'],$typed_inputs['authors'] )) echo 'checked'; ?> type="checkbox" name="availabe_authors[]" value="<?php echo $authors['author_name']; ?>"> <?php echo $authors['author_name']; ?></input><br>
+                    <?php endforeach;?>
                 <!-- </select> -->
                 </div>
                 <p>Not listed? <a href="#">Register here</a></p>
