@@ -34,7 +34,7 @@
     }
 
     // new function added to support author input from checkbox
-    function build_multi_sql_authors_id_included($latest_index, $available_authors){
+    function build_multi_sql_authors_id_included($latest_index, $available_authors, $names){
 
         $map = array();
         foreach ($available_authors  as $a){
@@ -42,7 +42,7 @@
         }
 
         $multi_authors = "INSERT INTO tbl_authors VALUES ";
-        $names = $_POST['availabe_authors'];
+        $names;
         $index = 0;
         
         
@@ -98,6 +98,22 @@
 
         return ($b_ct > 0) ? FALSE : TRUE;
     }
- 
+    
+    // publisher add book validation function
+    function publisher_book_info_validation($typed_inputs){
+        if ($typed_inputs['genre']=='Select' || $typed_inputs['type']=='Select' || count($typed_inputs['authors'])==0){
+            return False;
+        }
+        return True;
+    }
+
+    function create_author_array_to_return_checked_status($names){
+        $map =array();
+        foreach($names as $name){
+            $map[$name] = 1;
+        }
+
+        return $map;
+    }
 
 ?>
