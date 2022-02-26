@@ -80,11 +80,11 @@
         <form action="<?php htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
             <div class="book_name">
                 <label for="book_name">Title;</label>
-                <input type="text" name="book_name" id="" placeholder="Enter Title">
+                <input type="text" name="book_name" id="" placeholder="Enter Title" required>
             </div>
             <div class="book_isbn">
                 <label for="book_isbn">ISBN:</label>
-                <input type="text" name="book_isbn" id="" placeholder="Enter ISBN">
+                <input type="text" name="book_isbn" id="" placeholder="Enter ISBN" req<input type="text" name="book_name" id="" placeholder="Enter Title" required>
             </div>
             
             <div class="book_genre">
@@ -106,7 +106,7 @@
             </div>
             <div class="book_price">
                 <label for="book_price">Price:</label>
-                <input type="number" name="book_price" id="" placeholder="0.00" step="0.01" min="<?php echo $min_price; ?>" max="<?php echo $max_price; ?>">
+                <input type="number" name="book_price" id="" placeholder="0.00" step="0.01" min="<?php echo $min_price; ?>" max="<?php echo $max_price; ?>" required>
             </div>
 
             <div class="book_author">
@@ -122,9 +122,12 @@
                 <p>Not listed? <a href="#">Register here</a></p>
             </div>
             <div class="form-add">
-                <button type="submit" name="book_add" value="Add">Add</button>
-                <button type="submit" name="log_out" value="Log out">Log out</button>
+                <button type="submit" name="book_add" value="Add">Add</button>  
             </div>
+           
+        </form>
+        <form action="<?php htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
+            <button type="submit" name="log_out" value="Log out">Log out</button>
         </form>
     </div>
     <hr>
