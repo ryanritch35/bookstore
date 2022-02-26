@@ -30,7 +30,7 @@
         // foreach ($names as $name){ 
         //     echo $name."<br />";
         // }
-        echo build_multi_sql_authors_id_included("1", $available_authors);
+        echo build_multi_sql_authors_id_included("1", $available_authors, $names);
     }
 
 
