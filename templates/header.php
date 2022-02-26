@@ -59,6 +59,14 @@
     }
 
     .index-center {text-align: center;}
+    .book_author-checkbox{
+        margin-left: 80px;
+        margin-top: 10px;
+        border:1px solid #000; 
+        width:150px; 
+        height: 100px; 
+        overflow-y: scroll; 
+    }
     
 
 </style>
