@@ -64,6 +64,7 @@
             return $book_types[$type];
         }
     ?>
+    <!-- LOL SMTHING ADDED HERE -->
     <h1>Welcome <?php echo $_SESSION['publisher_name']; ?></h1> <hr>
     <form action="<?php htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
         <div class="book_name">
