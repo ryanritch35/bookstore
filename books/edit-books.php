@@ -13,7 +13,7 @@
             $edit_book_id = (int)htmlspecialchars($_GET['id']);
 
             if($edit_book_id > 0){
-                $sql = "SELECT book_id, isbn, title, genre, book_type, price FROM tbl_books WHERE book_id = '$edit_book_id';";
+                $sql = "SELECT book_id, isbn, title, price FROM tbl_books WHERE book_id = '$edit_book_id';";
 
                 $result = mysqli_query($conn, $sql);
                 $rows = mysqli_num_rows($result);
@@ -44,11 +44,14 @@
     if(isset($_POST['book_edit'])){
         $b_title = htmlspecialchars($_POST['book_name']);
         $b_isbn = htmlspecialchars($_POST['book_isbn']);
-        $b_price = htmlspecialchars($_POST['book_price']);
+        $b_price = sprintf('%.2f', htmlspecialchars($_POST['book_price']));
         $b_id = $current_book['id'];
 
-        $sql = "UPDATE tbl_books SET title = '$b_title', isbn = '$b_isbn', price = '$b_price' WHERE book_id= '$b_id';"; 
+        
 
+        $sql = "UPDATE tbl_books SET isbn = '$b_isbn', title = \"$b_title\",  price = '$b_price' WHERE book_id= '$b_id';"; 
+
+        echo $sql.'<br>';
         if(mysqli_query($conn, $sql)){
             $current_book['id'] = '';
             $current_book['title'] = '';
