@@ -35,27 +35,28 @@
             <h3>Publishers Sign Up</h3>
             <div class="publisher_signup-name">
                 <label for="publisher_singup_name">Name: </label>
-                <input type="text" name="publisher_singup_name" id="" placeholder="organization name">
+                <input type="text" name="publisher_singup_name" id="" placeholder="organization name" required>
             </div>
             <div class="publisher-signup-username">
                 <label for="publisher_signup_username">Username: </label>
-                <input type="email" name="publisher_signup_username" id="" placeholder="email address">
+                <input type="email" name="publisher_signup_username" id="" placeholder="email address" required>
             </div>
             <div class="publisher-signup-password">
                 <label for="publisher_signup_password">Password: </label>
-                <input type="password" name="publisher_signup_password" id="" placeholder="password">
+                <input type="password" name="publisher_signup_password" id="" placeholder="password" required>
             </div>
             <div class="publisher-signup-address">
                 <label for="publisher_signup_address">Address: </label>
-                <input type="text" name="publisher_signup_address" id="" placeholder="your address">
+                <input type="text" name="publisher_signup_address" id="" placeholder="your address" required>
             </div>
             <div class="publisher-signup-phone">
                 <label for="publisher_signup_phone">Phone: </label>
-                <input type="tel" name="publisher_signup_phone" id="" placeholder="your contact phone" >
+                <input type="tel" name="publisher_signup_phone" id="" placeholder="your contact phone" required >
             </div>
             <div class="submit-buttons">
                     <button type="submit" name="publisher_signup">Sign up</button>
-                    <button type="submit" name="cancel_signup" value="Cancel">Cancel </button>
+                    <a href="../login/log-in-publishers.php">Cancel</a>
+                    <!-- <button type="submit" name="cancel_signup" value="Cancel">Cancel </button> -->
             </div>
         </form>
     </div>

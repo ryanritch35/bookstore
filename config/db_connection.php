@@ -2,7 +2,7 @@
     $host = 'localhost';
     $host_user = 'root';
     $host_password = '';
-    $host_db = 'bookstore';
+    $host_db = 'bookstore_test2';
 
     $conn = mysqli_connect($host, $host_user, $host_password, $host_db);
 
