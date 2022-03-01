@@ -1,5 +1,6 @@
 <?php
     include_once('../config/db_connection.php');
+    include('../variables/variables.php');
     session_start();
     $typedIn = array('user_name'=>'');
     print_r($typedIn);
@@ -9,7 +10,7 @@
         $publisher_password = htmlspecialchars($_POST['publisher_password']);
         $typedIn['user_name'] = $publisher_username;
 
-        $sql = "SELECT * FROM tbl_publishers WHERE pub_username = '$publisher_username' AND pub_password='$publisher_password'";
+        $sql = "SELECT * FROM $tbl_publishers WHERE pub_username = '$publisher_username' AND pub_password='$publisher_password'";
 
         $result = mysqli_query($conn, $sql);
         $users = mysqli_fetch_all($result, MYSQLI_ASSOC);
