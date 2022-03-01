@@ -1,11 +1,12 @@
 <?php
     include('../config/db_connection.php');
     include('../functions/functions.php');
+    include('../variables/variables.php');
     $arr = array("John Smith", "Stacy Saga");
     get_author_user_id($arr, $conn);
 
     // This is for available authors
-    $sql = "SELECT DISTINCT author_name, user_id from tbl_authors;";
+    $sql = "SELECT DISTINCT author_name, author_id from $tbl_is_author ORDER BY author_name;";
     $result = mysqli_query($conn, $sql);
     $available_authors = mysqli_fetch_all($result, MYSQLI_ASSOC);
     mysqli_free_result($result);
@@ -13,15 +14,19 @@
     print_r($available_authors);
     echo '<br><br><br>';
 
+    // echo build_multi_sql_authors_id_included("1", $available_authors, $names);
+
     $map = array();
     foreach ($available_authors  as $a){
-        $map[$a['author_name']] = $a['user_id'];
+        $map[$a['author_name']] = $a['author_id'];
     }
     print_r($map);
     echo '<br><br><br>';
 
     echo "id of Oskar Mclellan:".$map['Oskar Mclellan'];
     echo '<br><br><br>';
+
+   
 
 
 
