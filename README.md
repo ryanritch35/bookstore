@@ -1,3 +1,7 @@
+# Log
+
+**main branch updated at 02/28/2022 9:53 PM**
+
 # Bookstore
 
 Database 2 Course Bookstore project.
