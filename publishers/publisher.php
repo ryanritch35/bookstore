@@ -10,7 +10,7 @@
 
     $publisher_name = htmlspecialchars($_SESSION['publisher_name']);
 
-    $sql = "SELECT tbl_books.book_id, tbl_books.isbn, tbl_books.title, tbl_books.genre, tbl_books.book_type, tbl_books.price, tbl_books.rating, tbl_books.publisher_name FROM tbl_books WHERE publisher_name = '$publisher_name'";
+    $sql = "SELECT $tbl_books.book_id, $tbl_books.isbn, $tbl_books.title, $tbl_books.genre, $tbl_books.book_type, $tbl_books.price, $tbl_books.rating, $tbl_books.publisher_name FROM $tbl_books WHERE publisher_name = '$publisher_name'";
 
     $result = mysqli_query($conn, $sql);
     $books = mysqli_fetch_all($result, MYSQLI_ASSOC);
@@ -18,16 +18,18 @@
     mysqli_free_result($result);
 
     // This is for available authors
-    $sql = "SELECT DISTINCT author_name, user_id from tbl_authors ORDER BY author_name;";
+    $sql = "SELECT DISTINCT author_name, author_id from $tbl_is_author ORDER BY author_name;";
     $result = mysqli_query($conn, $sql);
     $available_authors = mysqli_fetch_all($result, MYSQLI_ASSOC);
     mysqli_free_result($result);
 
+    echo '<br><br><br>';
     print_r($available_authors);
+    echo '<br><br><br>';
 
     if(isset($_POST['delete_book'])){
         $id_to_del =  htmlspecialchars($_POST['id_to_del']);
-        $sql = "DELETE FROM tbl_books WHERE book_id = '$id_to_del';";
+        $sql = "DELETE FROM $tbl_books WHERE book_id = '$id_to_del';";
 
         if(mysqli_query($conn, $sql)){
             echo '<script>alert("Successfully deleted!")</script>';
@@ -53,13 +55,14 @@
         $typed_inputs['type'] = $b_type;
         $typed_inputs['price'] = $b_price;
         $typed_inputs['authors'] = create_author_array_to_return_checked_status($names);
+
+        print_r($typed_inputs);
         
 
         if(publisher_book_info_validation($typed_inputs)){    
             if(check_if_book_exist($b_isbn, $b_type, $conn)){
 
-                $sql = "INSERT INTO tbl_books(isbn, title, genre, book_type, price, publisher_name) VALUES('$b_isbn', '$b_title', '$b_genre', '$b_type', '$b_price', '$publisher_name')";
-
+                $sql = "INSERT INTO $tbl_books(isbn, title, genre, book_type, price, publisher_name) VALUES('$b_isbn', '$b_title', '$b_genre', '$b_type', '$b_price', '$publisher_name')";
 
                 if(mysqli_query($conn, $sql)){
                     $last_inserted_book_id = mysqli_insert_id($conn);
@@ -102,7 +105,7 @@
             return $book_types[$type];
         }
     ?>
-    <!-- LOL SMTHING ADDED HERE -->
+   
     <h1>Welcome <?php echo $_SESSION['publisher_name']; ?></h1> <hr>
     <div class="publisher-center">
         <?php include('../books/add-books.php'); ?>
