@@ -16,9 +16,9 @@
     <title>Book Store</title>
     <style>
     table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
     }
 
     td, th {
