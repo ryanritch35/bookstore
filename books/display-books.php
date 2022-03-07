@@ -1,16 +1,15 @@
 <?php
 
     // Getting all the books with Publishers
-    $sql = "SELECT tbl_books.book_id, tbl_books.isbn, tbl_books.title, tbl_books.genre, tbl_books.book_type, tbl_books.price, tbl_books.rating, tbl_books.publisher_name FROM tbl_books";
+    if(basename($_SERVER['PHP_SELF']) =='index.php'){
+        $sql = "SELECT tbl_books.book_id, tbl_books.isbn, tbl_books.title, tbl_books.genre, tbl_books.book_type, tbl_books.price, tbl_books.rating, tbl_books.publisher_name FROM tbl_books";
 
-    $result = mysqli_query($conn, $sql);
-    $display_books = mysqli_fetch_all($result, MYSQLI_ASSOC);
+        $result = mysqli_query($conn, $sql);
+        $display_books = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    }
 
 ?>
 
-<?php 
-    include("./functions/functions.php"); 
-?>
 
 
 
