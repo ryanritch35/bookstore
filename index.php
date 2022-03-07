@@ -35,7 +35,8 @@
         </form>
     </div>
     <hr>
-    <h3>Availabe Books</h3>
+    <?php include("./functions/functions.php");?>
+    <?php include('./books/search-books.php'); ?>
     <?php include('./books/display-books.php') ?>
 
     <?php include('./templates/footer.php'); ?>
