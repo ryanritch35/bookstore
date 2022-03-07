@@ -60,10 +60,13 @@
     }
 
     function get_author_for_each_book($related_book_id, $conn){
-        if(basename($_SERVER['PHP_SELF'])== 'publisher.php'){
-            include('../variables/variables.php');
-        } else if (basename($_SERVER['PHP_SELF'])== 'index.php'){
+        // if(basename($_SERVER['PHP_SELF'])== 'publisher.php'){
+        //     include('../variables/variables.php');
+        // }
+        if (basename($_SERVER['PHP_SELF'])== 'index.php'){
             include('./variables/variables.php');
+        } else{
+            include('../variables/variables.php');
         }
         /*
             SELECT author_name
